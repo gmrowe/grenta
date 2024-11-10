@@ -1,0 +1,6 @@
+{:fn-map {"defn" :arg1-force-nl
+          "deftest" :arg1-body
+          "testing" [:arg1-body {:list {:respect-nl? true}}]}
+ :map {:comma? false :sort? false}
+ :vector {:respect-nl? true}
+ :width 90}
