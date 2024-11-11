@@ -13,4 +13,5 @@
                    :main-opts ["-m" "nrepl.cmdline"]}}
  :paths ["src"]
  :deps {mikera/imagez {:git/url "https://github.com/mikera/imagez"
-                       :git/sha "f2dc36797a72ab43804faa2bc01241d65bcf7e2e"}}}
+                       :git/sha "f2dc36797a72ab43804faa2bc01241d65bcf7e2e"}
+        org.clojure/data.generators {:mvn/version "1.1.0"}}}
