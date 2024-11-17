@@ -1,28 +1,31 @@
 (ns grenta.nature-of-code.random-number-distribution
   (:require [quil.core :as q]
+            [quil.middleware :as m]
             [clojure.math :as math]
             [clojure.data.generators :as gen]))
 
-(def num-buckets 20)
-(def state (atom nil))
-(defn init-state
-  []
-  (reset! state
-    (vec (repeat num-buckets 0))))
+(def num-buckets 30)
 
 (defn setup
   []
-  (init-state))
+  (vec (repeat num-buckets 0)))
+
+(defn accept-reject-generator
+  []
+  (let [n (rand)]
+    (if (< (rand) n)
+      (long (math/floor (* n num-buckets)))
+      (recur))))
 
 (defn update-counts
   ([counts]
-   (update-counts counts #(q/random (count counts))))
+   (update-counts counts #(accept-reject-generator)))
 
   ([counts gen]
    (let [n (q/floor (gen))]
      (update counts n inc))))
 
-(defn render-state
+(defn draw
   [counts]
   (let [bar-width (/ (q/width) num-buckets)
         outline-color [255 255 0]
@@ -37,16 +40,13 @@
       (when (= bar-n 5)
         (printf "pos:(%s, %s)%n" (* bar-width bar-n) bar-height)))))
 
-(defn draw
-  []
-  (swap! state update-counts)
-  (render-state @state))
-
 (q/defsketch example
   :title "Random number distribution"
   :settings #(q/smooth 2)
   :setup setup
   :draw draw
+  :update update-counts
   :size [640 240]
-  :features [:resizable])
+  :features [:resizable]
+  :middleware [m/fun-mode])
 
