@@ -1,7 +1,8 @@
 (ns grenta.nature-of-code.random-walk-fun-mode
   (:require [quil.core :as q]
             [quil.middleware :as m]
-            [clojure.data.generators :as gen]))
+            [clojure.data.generators :as gen]
+            [clojure.math :as math]))
 
 (defn update-position-cardinal
   [{:keys [old new]}]
@@ -54,6 +55,24 @@
     {:old new
      :new (mapv + deltap new)}))
 
+
+(defn accept-reject-generator
+  [lo hi]
+  (let [n (rand)]
+    (if (< n (rand))
+      (let [factor (math/signum (- (rand) 0.5))
+            half-range (/ (- hi lo) 2)
+            mid (+ lo half-range)]
+        (long (math/floor (+ mid (* n factor half-range)))))
+      (recur lo hi))))
+
+(defn update-position-custom-distribution
+  [state]
+  (let [dx (accept-reject-generator -10 10)
+        dy (accept-reject-generator -10 10)]
+    {:old (:new state)
+     :new (mapv + [dx dy] (:new state))}))
+
 (defn setup
   []
   (q/background 200)
@@ -73,7 +92,7 @@
   :settings #(q/smooth 2) ;; Turn on anti-aliasing
   :setup setup            ;; Specify the setup fn
   :draw draw              ;; Specify the draw fn
-  :update update-position-gaussian
+  :update update-position-custom-distribution
   :size [640 240]
   :middleware [m/fun-mode]
   :features [])
