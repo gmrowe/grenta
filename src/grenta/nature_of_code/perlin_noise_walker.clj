@@ -4,34 +4,39 @@
 
 (defn setup
   []
-  (let [x-seed (q/random 1000)
-        y-seed (q/random 1000)
-        x-step 0.01
-        y-step 0.01]
-    {:x (q/map-range (q/noise x-seed) 0.0 1.0 0.0 (q/width))
-     :y (q/map-range (q/noise y-seed) 0.0 1.0 0.0 (q/height))
-     :x-state (+ x-seed x-step)
-     :y-state (+ y-seed y-step)
-     :x-step x-step
-     :y-step y-step
+  (let [x-seed (q/random 10000)
+        y-seed (q/random 10000)
+        x-off 0.05
+        y-off 0.05]
+    {:x (/ (q/width) 2.0)
+     :y (/ (q/height) 2.0)
+     :x-state (+ x-seed x-off)
+     :y-state (+ y-seed y-off)
+     :x-step 0.0
+     :y-step 0.0
+     :x-off x-off
+     :y-off y-off
      :radius 50
      :fill-color (q/color 150)
      :stroke-color (q/color 0)}))
 
 (defn tweak-options
   [state]
-  (let [my-options {:fill-color (q/color 60 85 45)}]
+  (let [my-options {:x-off 0.1
+                    :y-off 0.1}]
     (merge state my-options)))
 
 (defn update-state
   [state]
-  (let [{:keys [x-state x-step y-state y-step]} state]
+  (let [{:keys [x-state x-off y-state y-off x-step y-step]} state]
     (-> state
-        (tweak-options)
-        (update :x-state + x-step)
-        (assoc :x (q/map-range (q/noise x-state) 0.0 1.0 0.0 (q/width)))
-        (update :y-state + y-step)
-        (assoc :y (q/map-range (q/noise y-state) 0.0 1.0 0.0 (q/height))))))
+        tweak-options
+        (update :x + x-step)
+        (update :y + y-step)
+        (assoc :x-step (q/map-range (q/noise x-state) 0.0 1.0 -2.0 2.0))
+        (assoc :y-step (q/map-range (q/noise y-state) 0.0 1.0 -2.0 2.0))
+        (update :x-state + x-off)
+        (update :y-state + y-off))))
 
 (defn draw
   [{:keys [x y radius fill-color stroke-color]}]
