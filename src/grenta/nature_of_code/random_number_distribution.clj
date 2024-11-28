@@ -36,9 +36,7 @@
                   y (- (q/height) bar-height)]]
       (apply q/stroke outline-color)
       (apply q/fill fill-color)
-      (q/rect x y bar-width bar-height)
-      (when (= bar-n 5)
-        (printf "pos:(%s, %s)%n" (* bar-width bar-n) bar-height)))))
+      (q/rect x y bar-width bar-height))))
 
 (comment
   (q/defsketch example
