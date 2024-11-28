@@ -1,19 +1,29 @@
 (ns grenta.nature-of-code.noise-visualization
   (:require [quil.core :as q]
-            [quil.middleware :as m]))
+            [quil.middleware :as m]
+            [grenta.nature-of-code.slider :as slider]))
 
 (defn setup
   []
-  {:time 0.0
-   :step-size 0.005})
+  (let [slider-len 200]
+    {:time 0.0
+     :step-size 0.005
+     :min-step 0.000
+     :max-step 0.2
+     :slider (slider/new-slider (/ (- (q/width) slider-len) 2)
+                                (- (q/height) 20)
+                                slider-len
+                                5)}))
 
 (defn update-state
-  [{:keys [step-size] :as state}]
-  (-> state
-      (update :time + step-size)))
+  [{:keys [min-step max-step step-size] :as state}]
+  (let [slider-value (get-in state [:slider :value])]
+    (-> state
+        (update :time + step-size)
+        (assoc :step-size (q/map-range slider-value 0.0 1.0 min-step max-step)))))
 
 (defn draw
-  [{:keys [time step-size]}]
+  [{:keys [time step-size] :as state}]
   ;; Clear the background
   (q/background 255)
   ;; Draw curve
@@ -46,41 +56,38 @@
     (q/fill text-color)
     (q/text (format "y-value: %.0f" y) text-x text-y))
 
-  ;; Draw a thin vertical line in the middle of the screen
-  (let [midpoint (/ (q/width) 2.0)]
-    (q/fill 127 50)
-    (q/stroke 1 50)
-    (q/stroke-weight 1)
-    (q/line midpoint 0 midpoint (q/height)))
-
   ;; Draw text
   (q/fill 0)
-  (q/text "Press \"+\" or \"-\" to change step size" 10 20)
-  (q/text (format "Step-size = %.3f" step-size) 10 30))
+  (q/text (format "Step-size = %.3f" step-size) 20 230)
 
-(defn key-pressed
-  [state {:keys [raw-key]}]
-  ;; The 0.005 step-change  is completely arbitrary, and hard coded
-  (let [step-change 0.005]
-    (cond
-      (= raw-key \+)
-        (update state :step-size + step-change)
-      (or (= raw-key \-) (= raw-key \_))
-        (assoc state :step-size (max 0.0 (- (:step-size state) step-change)))
-      :else
-        state)))
+  ;; Draw the slider
+  (slider/draw (:slider state)))
+
+(defn mouse-dragged
+  [state drag-event]
+  (update state :slider slider/mouse-dragged drag-event))
+
+(defn mouse-clicked
+  [state click-event]
+  (update state :slider slider/mouse-clicked click-event))
+
+(defn mouse-released
+  [state click-event]
+  (let [slider (:slider state)]
+    (assoc state :slider (slider/mouse-released slider click-event))))
 
 ;; Information about the function signitures required for the
 ;; callback functions in fun-mode can be found here:
 ;; https://github.com/quil/quil/wiki/Functional-mode-%28fun-mode%29
-;;
 (q/defsketch example           ;; Define a new sketch named example
   :title "Noise visualization" ;; Set the title of the sketch
   :settings #(q/smooth 2)      ;; Turn on anti-aliasing
   :setup setup                 ;; Specify the setup fn
   :draw draw                   ;; Specify the draw fn
   :update update-state
-  :key-pressed key-pressed
+  :mouse-dragged mouse-dragged
+  :mouse-released mouse-released
+  :mouse-clicked mouse-clicked
   :size [640 240]
   :middleware [m/fun-mode]
   :features [])
