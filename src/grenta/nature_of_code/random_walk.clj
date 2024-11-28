@@ -57,11 +57,13 @@
     (prn @position)
     (swap! position update-position-skew-southeast)))
 
-(q/defsketch example      ;; Define a new sketch named example
-  :title "Random walker"  ;; Set the title of the sketch
-  :settings #(q/smooth 2) ;; Turn on anti-aliasing
-  :setup setup            ;; Specify the setup fn
-  :draw draw              ;; Specify the draw fn
-  :size [640 240]
-  :features [])
+(comment
+  (q/defsketch example      ;; Define a new sketch named example
+    :title "Random walker"  ;; Set the title of the sketch
+    :settings #(q/smooth 2) ;; Turn on anti-aliasing
+    :setup setup            ;; Specify the setup fn
+    :draw draw              ;; Specify the draw fn
+    :size [640 240]
+    :features [])
+)
 

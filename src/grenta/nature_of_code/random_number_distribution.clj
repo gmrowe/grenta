@@ -40,13 +40,15 @@
       (when (= bar-n 5)
         (printf "pos:(%s, %s)%n" (* bar-width bar-n) bar-height)))))
 
-(q/defsketch example
-  :title "Random number distribution"
-  :settings #(q/smooth 2)
-  :setup setup
-  :draw draw
-  :update update-counts
-  :size [640 240]
-  :features [:resizable]
-  :middleware [m/fun-mode])
+(comment
+  (q/defsketch example
+    :title "Random number distribution"
+    :settings #(q/smooth 2)
+    :setup setup
+    :draw draw
+    :update update-counts
+    :size [640 240]
+    :features [:resizable]
+    :middleware [m/fun-mode])
+)
 

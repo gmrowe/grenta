@@ -46,12 +46,15 @@
     (q/fill fill-color)
     (q/ellipse x y radius radius)))
 
-(q/defsketch perlin-noise-walker
-  :size [600 400]
-  :title "Perlin noise walker"
-  :settings #(q/smooth 2)
-  :features [:no-safe-fns]
-  :setup setup
-  :update update-state
-  :draw draw
-  :middleware [m/fun-mode])
+
+(comment
+  (q/defsketch perlin-noise-walker
+    :size [600 400]
+    :title "Perlin noise walker"
+    :settings #(q/smooth 2)
+    :features [:no-safe-fns]
+    :setup setup
+    :update update-state
+    :draw draw
+    :middleware [m/fun-mode])
+)

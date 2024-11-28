@@ -16,10 +16,13 @@
     (q/fill 0 10)
     (q/ellipse x center-y (* r 2) (* r 2))))
 
-(q/defsketch example
-  :title "Random number distribution"
-  :settings #(q/smooth 2)
-  :setup setup
-  :draw draw
-  :size [640 240])
+
+(comment
+  (q/defsketch example
+    :title "Random number distribution"
+    :settings #(q/smooth 2)
+    :setup setup
+    :draw draw
+    :size [640 240])
+)
 

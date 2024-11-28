@@ -90,6 +90,7 @@
   (dissoc state :dragging-knob?))
 
 (comment
+
   (defn setup
     []
     (let [length 180
@@ -110,4 +111,5 @@
     :mouse-clicked mouse-clicked
     :mouse-dragged mouse-dragged
     :mouse-released (fn [state _] (dissoc state :dragging-knob?))
-    :middleware [m/fun-mode]))
+    :middleware [m/fun-mode])
+)

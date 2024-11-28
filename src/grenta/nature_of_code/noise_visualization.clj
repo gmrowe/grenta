@@ -79,16 +79,18 @@
 ;; Information about the function signitures required for the
 ;; callback functions in fun-mode can be found here:
 ;; https://github.com/quil/quil/wiki/Functional-mode-%28fun-mode%29
-(q/defsketch example           ;; Define a new sketch named example
-  :title "Noise visualization" ;; Set the title of the sketch
-  :settings #(q/smooth 2)      ;; Turn on anti-aliasing
-  :setup setup                 ;; Specify the setup fn
-  :draw draw                   ;; Specify the draw fn
-  :update update-state
-  :mouse-dragged mouse-dragged
-  :mouse-released mouse-released
-  :mouse-clicked mouse-clicked
-  :size [640 240]
-  :middleware [m/fun-mode]
-  :features [])
+(comment
+  (q/defsketch example ;; Define a new sketch named example
+    :title "Noise visualization" ;; Set the title of the sketch
+    :settings #(q/smooth 2)      ;; Turn on anti-aliasing
+    :setup setup                 ;; Specify the setup fn
+    :draw draw                   ;; Specify the draw fn
+    :update update-state
+    :mouse-dragged mouse-dragged
+    :mouse-released mouse-released
+    :mouse-clicked mouse-clicked
+    :size [640 240]
+    :middleware [m/fun-mode]
+    :features [])
+)
 

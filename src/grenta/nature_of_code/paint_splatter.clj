@@ -24,10 +24,13 @@
     (q/fill color 100)
     (q/ellipse x y (* r 2) (* r 2))))
 
-(q/defsketch example
-  :title "Paint splatter!"
-  :settings #(q/smooth 2)
-  :setup setup
-  :draw draw
-  :size [400 400])
+
+(comment
+  (q/defsketch example
+    :title "Paint splatter!"
+    :settings #(q/smooth 2)
+    :setup setup
+    :draw draw
+    :size [400 400])
+)
 

@@ -87,13 +87,15 @@
     (q/stroke black)
     (q/line start new)))
 
-(q/defsketch example      ;; Define a new sketch named example
-  :title "Random walker"  ;; Set the title of the sketch
-  :settings #(q/smooth 2) ;; Turn on anti-aliasing
-  :setup setup            ;; Specify the setup fn
-  :draw draw              ;; Specify the draw fn
-  :update update-position-custom-distribution
-  :size [640 240]
-  :middleware [m/fun-mode]
-  :features [])
+(comment
+  (q/defsketch example      ;; Define a new sketch named example
+    :title "Random walker"  ;; Set the title of the sketch
+    :settings #(q/smooth 2) ;; Turn on anti-aliasing
+    :setup setup            ;; Specify the setup fn
+    :draw draw              ;; Specify the draw fn
+    :update update-position-custom-distribution
+    :size [640 240]
+    :middleware [m/fun-mode]
+    :features [])
+)
 
